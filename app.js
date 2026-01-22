@@ -411,7 +411,7 @@ function stopMining() {
     miningStatus.classList.remove('active');
 }
 
-window.showTipModal = function() {
+window.showTipModal = function () {
     window.tipModalOriginalContent = null;
     tipModal.classList.add('active');
 };
@@ -758,7 +758,7 @@ function startPaymentPolling() {
     }, 2000);
 }
 
-window.closeTipModalToOriginal = function() {
+window.closeTipModalToOriginal = function () {
     if (paymentPollInterval) {
         clearInterval(paymentPollInterval);
         paymentPollInterval = null;
@@ -786,20 +786,20 @@ window.closeTipModalToOriginal = function() {
     closeTipModal();
 };
 
-window.copyTipInvoice = function(invoice) {
+window.copyTipInvoice = function (invoice) {
     navigator.clipboard.writeText(invoice).then(() => {
         alert('Invoice copied to clipboard!');
     });
 };
 
-window.resetMiner = function() {
+window.resetMiner = function () {
     resultsSection.classList.remove('active');
     prefixInput.value = '';
     startBtn.disabled = true;
     updateDifficulty('');
 };
 
-window.copyResult = function(elementId) {
+window.copyResult = function (elementId) {
     const text = document.getElementById(elementId).textContent.trim();
     navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector(`#${elementId} .copy-btn`);
@@ -811,7 +811,7 @@ window.copyResult = function(elementId) {
     });
 };
 
-window.mineMoreVariations = function() {
+window.mineMoreVariations = function () {
     if (!hasUserTipped) {
         showTipModal();
         setTimeout(() => {

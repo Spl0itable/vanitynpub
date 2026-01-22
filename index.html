@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanity Npub — Mine Your Perfect Nostr Identity</title>
-    <meta name="description" content="Generate vanity Nostr public keys with custom prefixes. Mine npub addresses that start with your name, brand, or any pattern you desire.">
+    <meta name="description"
+        content="Generate vanity Nostr public keys with custom prefixes. Mine npub addresses that start with your name, brand, or any pattern you desire.">
 
-        <meta property="og:title" content="Mine a vanity npub for Nostr">
+    <meta property="og:title" content="Mine a vanity npub for Nostr">
     <meta property="og:description"
         content="Generate vanity Nostr public keys with custom prefixes. Mine npub addresses that start with your name, brand, or any pattern you desire.">
     <meta property="og:image" content="https://https://vanitynpub.com/images/vn-og.png">
@@ -20,19 +22,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Vanity Npub">
     <link rel="apple-touch-icon" href="images/miner.png">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/nostr-tools@2.10.0/lib/nostr.bundle.js"></script>
     <script src="https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js"></script>
 </head>
+
 <body>
     <div class="bg-grid"></div>
     <div class="bg-gradient"></div>
-    
+
     <div class="container">
         <header>
             <div class="logo-container">
@@ -41,25 +46,19 @@
             </div>
             <p class="tagline">Mine your perfect Nostr identity in your browser — Free & Open Source</p>
         </header>
-        
+
         <main class="main-card">
             <div class="input-section">
                 <label class="input-label" id="patternLabel">Desired Prefix</label>
-                <p class="input-hint" id="patternHint">Enter the characters you want at the start (a-z, 0-9 only, no 1, b, i, o)</p>
+                <p class="input-hint" id="patternHint">Enter the characters you want at the start (a-z, 0-9 only, no 1,
+                    b, i, o)</p>
                 <div class="prefix-input-wrapper">
                     <span class="prefix-static" id="prefixStatic">npub1</span>
-                    <input
-                        type="text"
-                        class="prefix-input"
-                        id="prefixInput"
-                        placeholder="h0dl"
-                        maxlength="8"
-                        pattern="[a-z0-9]+"
-                        autocomplete="off"
-                    >
+                    <input type="text" class="prefix-input" id="prefixInput" placeholder="h0dl" maxlength="8"
+                        pattern="[a-z0-9]+" autocomplete="off">
                 </div>
             </div>
-            
+
             <div class="position-section">
                 <div class="position-option">
                     <input type="radio" name="position" id="posPrefix" value="prefix" checked>
@@ -74,7 +73,7 @@
                     <label for="posSuffix">Ends with</label>
                 </div>
             </div>
-            
+
             <div class="difficulty-indicator">
                 <div class="difficulty-header">
                     <span class="difficulty-label">Estimated Difficulty</span>
@@ -100,14 +99,14 @@
                     <span id="coreCount">Detecting cores...</span>
                 </div>
             </div>
-            
+
             <button class="btn btn-primary" id="startBtn" disabled>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
                 Start Mining
             </button>
-            
+
             <div class="mining-status" id="miningStatus">
                 <div class="status-header">
                     <span class="status-title">
@@ -115,7 +114,7 @@
                         Mining in progress...
                     </span>
                 </div>
-                
+
                 <div class="stats-grid">
                     <div class="stat-box">
                         <div class="stat-value" id="keysChecked">0</div>
@@ -130,100 +129,111 @@
                         <div class="stat-label">Elapsed Time</div>
                     </div>
                 </div>
-                
+
                 <div class="current-attempt" id="currentAttempt">Initializing workers...</div>
-                
+
                 <button class="btn btn-danger" id="stopBtn">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <rect x="6" y="6" width="12" height="12" rx="2"/>
+                        <rect x="6" y="6" width="12" height="12" rx="2" />
                     </svg>
                     Stop Mining
                 </button>
             </div>
-            
+
             <div class="results-section" id="resultsSection">
                 <h3 style="margin-bottom: 1rem; color: var(--accent-cyan);">🎉 Match Found!</h3>
-                
+
                 <div class="result-card success">
                     <div class="result-label">Public Key (npub)</div>
                     <div class="result-value" id="resultNpub">
                         <button class="copy-btn" onclick="copyToClipboard('resultNpub')">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                             </svg>
                         </button>
                         <span id="npubText"></span>
                     </div>
-                    
+
                     <div class="result-label">Private Key (nsec) — KEEP SECRET!</div>
                     <div class="result-value nsec" id="resultNsec">
                         <button class="copy-btn" onclick="copyToClipboard('resultNsec')">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1" />
                             </svg>
                         </button>
                         <span id="nsecText"></span>
                     </div>
-                    
+
                     <div class="warning-box">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                            <line x1="12" y1="9" x2="12" y2="13"/>
-                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
                         </svg>
                         <p>
                             <strong>Save your private key (nsec) securely!</strong><br>
-                            This key was generated entirely in your browser and is not stored anywhere. 
+                            This key was generated entirely in your browser and is not stored anywhere.
                             If you lose it, your identity cannot be recovered.
                         </p>
                     </div>
                 </div>
-                
+
                 <button class="btn btn-primary" onclick="resetMiner()" style="margin-top: 1rem;">
                     Mine Another Key
                 </button>
             </div>
         </main>
-        
+
         <section class="info-section">
             <div class="info-card">
                 <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" stroke-width="2">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)"
+                        stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
                     100% Client-Side
                 </h3>
-                <p>All key generation happens in your browser using Web Workers. Your private keys never leave your device — we can't see them even if we wanted to.</p>
+                <p>All key generation happens in your browser using Web Workers. Your private keys never leave your
+                    device — we can't see them even if we wanted to.</p>
             </div>
-            
+
             <div class="info-card">
                 <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <polyline points="12 6 12 12 16 14"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
                     </svg>
                     Difficulty Scaling
                 </h3>
-                <p>Each additional character roughly multiplies the search time by 32. A 3-letter prefix takes seconds; 6+ letters could take hours or days. Please be patient.</p>
+                <p>Each additional character roughly multiplies the search time by 32. A 3-letter prefix takes seconds;
+                    6+ letters could take hours or days. Please be patient.</p>
             </div>
-            
+
             <div class="info-card">
                 <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-pink)" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-pink)"
+                        stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
                     </svg>
                     Free &amp; Open Source
                 </h3>
-                <p>This project is completely free to use and open source. No payment required, no tracking, no data collection. Support development with voluntary Lightning tips.</p>
+                <p>This project is completely free to use and open source. No payment required, no tracking, no data
+                    collection. Support development with voluntary Lightning tips.</p>
             </div>
         </section>
-        
+
         <footer>
-            <p>Free & Open Source • Built for the Nostr community with ❤︎ by Luxas • <a href="https://github.com/Spl0itable/vanitynpub" target="_blank">View on GitHub</a></p>
+            <p>Free & Open Source • Built for the Nostr community with ❤︎ by Luxas • <a
+                    href="https://github.com/Spl0itable/vanitynpub" target="_blank">View on GitHub</a></p>
         </footer>
     </div>
 
@@ -231,7 +241,7 @@
         <div class="modal">
             <div class="lightning-icon">
                 <svg viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                 </svg>
             </div>
             <h2 class="modal-title">Support Vanity Npub</h2>
@@ -240,25 +250,25 @@
             <div class="modal-buttons">
                 <button class="btn btn-lightning tip-amount-btn" data-amount="100">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     100 sats
                 </button>
                 <button class="btn btn-lightning tip-amount-btn" data-amount="500">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     500 sats
                 </button>
                 <button class="btn btn-lightning tip-amount-btn" data-amount="1000">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     1,000 sats
                 </button>
                 <button class="btn btn-lightning tip-amount-btn" data-amount="2121">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
                     2,121 sats ⚡
                 </button>
@@ -270,4 +280,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>
